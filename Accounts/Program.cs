@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Accounts
 {
@@ -13,11 +14,15 @@ namespace Accounts
             a.id = "John";
             a.Amount = 5;
 
-            Account b = new Account {Age=20,Amount=0,id="Mary"};
+            Account b = new Account {Age=20,Amount=5,id="Mary"};
 
             Accounts.Add(a.id,a);
             Accounts.Add(b.id, b);
+
+
             Transfer(a, b, 5);
+
+            decimal allmoney = Accounts.GetAccountsSum();
 
         }
 
@@ -55,5 +60,13 @@ namespace Accounts
         }
         public decimal Amount { get; set; }        
     }
-     
+
+    public static class DictionaryExtensions
+    {
+        public static decimal GetAccountsSum(this Dictionary<String, Account> d)
+        {
+            decimal sum = d.Sum(x => x.Value.Amount);
+            return sum;
+        }
+    }
 }
